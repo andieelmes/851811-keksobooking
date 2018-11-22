@@ -59,7 +59,7 @@ function getRandomElementAndRemoveIt(array) {
 
 function makeListing() {
   var author = {
-    avatar: '0' + getRandomNumberFromLimit(AVATAR_LIMITS)
+    avatar: 'img/avatars/user0' + getRandomNumberFromLimit(AVATAR_LIMITS) + '.png'
   };
 
   var location = {
@@ -108,8 +108,8 @@ var renderMapPin = function (listing) {
   var y = listing.location.y + mapCardElement.offsetHeight;
 
   mapCardElement.style = 'left: ' + x + 'px; top: ' + y + 'px';
-  mapCardElement.src = listing.author.avatar;
-  mapCardElement.alt = listing.offer.title;
+  mapCardElement.querySelector('img').src = listing.author.avatar;
+  mapCardElement.querySelector('img').alt = listing.offer.title;
 
   return mapCardElement;
 };
@@ -124,16 +124,21 @@ var renderCardElement = function (listing) {
     bungalo: 'Бунгало'
   };
 
-  var getFeatures = function () {
-    var featuresString = '';
-    var features = listing.offer.features;
-    for (var k = 0; k < features.length; k++) {
-      featuresString += features[k];
-      if (k !== features.length - 1) {
-        featuresString += ', ';
-      }
+  var renderFeature = function (feature) {
+    var photoElement = cardElement.querySelector('.popup__features .popup__feature--wifi').cloneNode(true);
+    photoElement.classList.remove('popup__feature--wifi');
+    photoElement.classList.add('popup__feature--' + feature);
+
+    return photoElement;
+  };
+
+  var makeFeatures = function (array) {
+    var fragment = document.createDocumentFragment();
+    for (var y = 0; y < array.length; y++) {
+      fragment.appendChild(renderFeature(array[y]));
     }
-    return featuresString;
+    featureElement.innerHTML = '';
+    featureElement.appendChild(fragment);
   };
 
   var renderPhoto = function (photo) {
@@ -158,7 +163,10 @@ var renderCardElement = function (listing) {
   cardElement.querySelector('.popup__type').textContent = types[listing.offer.type];
   cardElement.querySelector('.popup__text--capacity').textContent = listing.offer.rooms + ' комнаты для ' + listing.offer.guests + ' гостей';
   cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + listing.offer.checkin + ', выезд до ' + listing.offer.checkout;
-  cardElement.querySelector('.popup__features').textContent = getFeatures();
+
+  var featureElement = cardElement.querySelector('.popup__features');
+  makeFeatures(listing.offer.features);
+
   cardElement.querySelector('.popup__description').textContent = listing.offer.description;
 
   var photoElement = cardElement.querySelector('.popup__photos');
