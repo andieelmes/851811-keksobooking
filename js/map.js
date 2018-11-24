@@ -42,7 +42,7 @@ var LOCATION_X_LIMITS = {
   MAX: mapPinsElement.offsetWidth
 };
 
-var titlesLeft = TITLES;
+var titlesLeft = TITLES.slice(0);
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * Math.floor((max - min) + 1) + min);
