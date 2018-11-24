@@ -14,32 +14,33 @@ var TIMES = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
-var AVATAR_LIMITS = {
-  MIN: 1,
-  MAX: 8
-};
-var PRICE_LIMITS = {
-  MIN: 1000,
-  MAX: 1000000
-};
-var ROOMS_LIMITS = {
-  MIN: 1,
-  MAX: 5
-};
-var LOCATION_Y_LIMITS = {
-  MIN: 130,
-  MAX: 630
-};
-
 var mapElement = document.querySelector('.map');
 var filtersElement = document.querySelector('.map__filters-container');
 var mapPinsElement = document.querySelector('.map__pins');
 var mapPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 var mapCardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
-var LOCATION_X_LIMITS = {
+var avatarLimits = {
+  MIN: 1,
+  MAX: 8
+};
+var priceLimits = {
+  MIN: 1000,
+  MAX: 1000000
+};
+var roomsLimits = {
+  MIN: 1,
+  MAX: 5
+};
+
+var locationXLimits = {
   MIN: 0,
   MAX: mapPinsElement.offsetWidth
+};
+
+var locationYLimits = {
+  MIN: 130,
+  MAX: 630
 };
 
 var titlesLeft = TITLES.slice(0);
@@ -80,20 +81,20 @@ function getRandomElementAndRemoveIt(array) {
 
 function makeListing() {
   var author = {
-    avatar: 'img/avatars/user0' + getRandomNumberFromLimit(AVATAR_LIMITS) + '.png'
+    avatar: 'img/avatars/user0' + getRandomNumberFromLimit(avatarLimits) + '.png'
   };
 
   var location = {
-    x: getRandomNumberFromLimit(LOCATION_X_LIMITS),
-    y: getRandomNumberFromLimit(LOCATION_Y_LIMITS)
+    x: getRandomNumberFromLimit(locationXLimits),
+    y: getRandomNumberFromLimit(locationYLimits)
   };
 
   var offer = {
     title: getRandomElementAndRemoveIt(titlesLeft),
     address: location.x + ',' + location.y,
-    price: getRandomNumberFromLimit(PRICE_LIMITS),
+    price: getRandomNumberFromLimit(priceLimits),
     type: getRandomElement(TYPES),
-    rooms: getRandomNumberFromLimit(ROOMS_LIMITS),
+    rooms: getRandomNumberFromLimit(roomsLimits),
     guests: getRandomInt(1, 20),
     checkin: getRandomElement(TIMES),
     checkout: getRandomElement(TIMES),
