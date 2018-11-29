@@ -14,11 +14,27 @@ var TIMES = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
+
 var mapElement = document.querySelector('.map');
 var filtersElement = document.querySelector('.map__filters-container');
 var mapPinsElement = document.querySelector('.map__pins');
 var mapPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 var mapCardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+
+var adFormElement = document.querySelector('.ad-form');
+var mapFormElement = document.querySelector('.map__filters');
+var adFormInputs = adFormElement.querySelectorAll('input, select');
+var mapFormInputs = mapFormElement.querySelectorAll('input, select');
+
+var mapPinMainElement = document.querySelector('.map__pin--main');
+var mapPinMainElementDimensions = {
+  width: mapPinMainElement.offsetWidth,
+  height: mapPinMainElement.offsetHeight,
+  after: 19,
+};
+var addressInput = adFormElement.querySelector('[name="address"]');
 
 var avatarLimits = {
   MIN: 1,
@@ -186,7 +202,38 @@ var populateDom = function (array, newElement, templateElement, render, clear) {
 };
 
 var makeMapCardElement = function (listing) {
-  mapElement.insertBefore(renderCardElement(listing), filtersElement);
+  var cardElementClass = '.map__card';
+  var cardElement = mapElement.querySelector(cardElementClass);
+  if (cardElement) {
+    cardElement.remove();
+  }
+  var card = renderCardElement(listing);
+  mapElement.insertBefore(card, filtersElement);
+
+  var cardCloseElement = card.querySelector('.popup__close');
+
+  var onPopupEscPress = function (e) {
+    if (e.keyCode === ESC_KEYCODE) {
+      closePopup(card);
+    }
+  };
+
+  document.addEventListener('keydown', onPopupEscPress);
+
+  var closePopup = function () {
+    card.classList.add('hidden');
+    document.removeEventListener('keydown', onPopupEscPress);
+  };
+
+  cardCloseElement.addEventListener('click', function () {
+    closePopup(card);
+  });
+
+  cardCloseElement.addEventListener('keydown', function (e) {
+    if (e.keyCode === ENTER_KEYCODE) {
+      closePopup(card);
+    }
+  });
 };
 
 var showMap = function () {
@@ -195,9 +242,60 @@ var showMap = function () {
 
 var init = function () {
   var pins = generateListings();
+
   populateDom(pins, mapPinsElement, mapPinTemplate, renderMapPin);
-  makeMapCardElement(pins[0]);
+  var mapPinElements = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+  showMapCardElement(pins, mapPinElements);
   showMap();
+
 };
 
-init();
+var setDefault = function () {
+  mapElement.classList.add('map--faded');
+
+  var addressX = +mapPinMainElement.style.left.replace('px', '') + mapPinMainElementDimensions.width / 2;
+  var addressY = +mapPinMainElement.style.top.replace('px', '') + mapPinMainElementDimensions.height / 2;
+  addressInput.value = addressX + ', ' + addressY;
+
+  adFormElement.classList.add('ad-form--disabled');
+  for (var i = 0; i < adFormInputs.length; i++) {
+    adFormInputs[i].disabled = true;
+  }
+  mapFormElement.classList.add('map-form--disabled');
+  for (var j = 0; j < mapFormInputs.length; j++) {
+    mapFormInputs[j].disabled = true;
+  }
+};
+
+setDefault();
+
+var activate = function () {
+  mapElement.classList.remove('map--faded');
+
+  var addressX = +mapPinMainElement.style.left.replace('px', '') + mapPinMainElementDimensions.width / 2;
+  var addressY = +mapPinMainElement.style.top.replace('px', '') + mapPinMainElementDimensions.height + mapPinMainElementDimensions.after;
+  addressInput.value = addressX + ', ' + addressY;
+
+  adFormElement.classList.remove('ad-form--disabled');
+  for (var i = 0; i < adFormInputs.length; i++) {
+    adFormInputs[i].disabled = false;
+  }
+  mapFormElement.classList.remove('map-form--disabled');
+  for (var j = 0; j < mapFormInputs.length; j++) {
+    mapFormInputs[j].disabled = false;
+  }
+};
+
+mapPinMainElement.addEventListener('click', function () {
+  activate();
+  init();
+});
+
+var showMapCardElement = function (listings, mapPins) {
+  listings.forEach(function (listing, i) {
+    mapPins[i].addEventListener('click', function () {
+      makeMapCardElement(listing);
+    });
+  });
+};
