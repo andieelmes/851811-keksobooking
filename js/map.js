@@ -16,6 +16,7 @@ var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.g
 
 var ESC_KEYCODE = 27;
 var ENTER_KEYCODE = 13;
+var CARD_ELEMENT_CLASS = '.map__card';
 
 var mapElement = document.querySelector('.map');
 var filtersElement = document.querySelector('.map__filters-container');
@@ -25,8 +26,8 @@ var mapCardTemplate = document.querySelector('#card').content.querySelector('.ma
 
 var adFormElement = document.querySelector('.ad-form');
 var mapFormElement = document.querySelector('.map__filters');
-var adFormInputs = adFormElement.querySelectorAll('input, select');
-var mapFormInputs = mapFormElement.querySelectorAll('input, select');
+var adFormInputElements = adFormElement.querySelectorAll('input, select');
+var mapFormInputElements = mapFormElement.querySelectorAll('input, select');
 
 var mapPinMainElement = document.querySelector('.map__pin--main');
 var mapPinMainElementDimensions = {
@@ -34,7 +35,7 @@ var mapPinMainElementDimensions = {
   height: mapPinMainElement.offsetHeight,
   after: 19,
 };
-var addressInput = adFormElement.querySelector('[name="address"]');
+var addressInputElement = adFormElement.querySelector('[name="address"]');
 
 var avatarLimits = {
   MIN: 1,
@@ -202,8 +203,7 @@ var populateDom = function (array, newElement, templateElement, render, clear) {
 };
 
 var makeMapCardElement = function (listing) {
-  var cardElementClass = '.map__card';
-  var cardElement = mapElement.querySelector(cardElementClass);
+  var cardElement = mapElement.querySelector(CARD_ELEMENT_CLASS);
   if (cardElement) {
     cardElement.remove();
   }
@@ -251,44 +251,35 @@ var init = function () {
 
 };
 
-var setDefault = function () {
-  mapElement.classList.add('map--faded');
+var setState = function (state) {
+  mapElement.classList[state.classAction]('map--faded');
 
   var addressX = +mapPinMainElement.style.left.replace('px', '') + mapPinMainElementDimensions.width / 2;
-  var addressY = +mapPinMainElement.style.top.replace('px', '') + mapPinMainElementDimensions.height / 2;
-  addressInput.value = addressX + ', ' + addressY;
+  var addressY = +mapPinMainElement.style.top.replace('px', '') + mapPinMainElementDimensions.height / 2 + state.mapPinHeightAdditional;
+  addressInputElement.value = addressX + ', ' + addressY;
 
-  adFormElement.classList.add('ad-form--disabled');
-  for (var i = 0; i < adFormInputs.length; i++) {
-    adFormInputs[i].disabled = true;
+  adFormElement.classList[state.classAction]('ad-form--disabled');
+  for (var i = 0; i < adFormInputElements.length; i++) {
+    adFormInputElements[i].disabled = state.inputDisableAction;
   }
-  mapFormElement.classList.add('map-form--disabled');
-  for (var j = 0; j < mapFormInputs.length; j++) {
-    mapFormInputs[j].disabled = true;
+  mapFormElement.classList[state.classAction]('map-form--disabled');
+  for (var j = 0; j < mapFormInputElements.length; j++) {
+    mapFormInputElements[j].disabled = state.inputDisableAction;
   }
 };
 
-setDefault();
-
-var activate = function () {
-  mapElement.classList.remove('map--faded');
-
-  var addressX = +mapPinMainElement.style.left.replace('px', '') + mapPinMainElementDimensions.width / 2;
-  var addressY = +mapPinMainElement.style.top.replace('px', '') + mapPinMainElementDimensions.height + mapPinMainElementDimensions.after;
-  addressInput.value = addressX + ', ' + addressY;
-
-  adFormElement.classList.remove('ad-form--disabled');
-  for (var i = 0; i < adFormInputs.length; i++) {
-    adFormInputs[i].disabled = false;
-  }
-  mapFormElement.classList.remove('map-form--disabled');
-  for (var j = 0; j < mapFormInputs.length; j++) {
-    mapFormInputs[j].disabled = false;
-  }
-};
+setState({
+  classAction: 'add',
+  inputDisableAction: true,
+  mapPinHeightAdditional: 0,
+});
 
 mapPinMainElement.addEventListener('click', function () {
-  activate();
+  setState({
+    classAction: 'remove',
+    inputDisableAction: false,
+    mapPinHeightAdditional: mapPinMainElementDimensions.after,
+  });
   init();
 });
 
