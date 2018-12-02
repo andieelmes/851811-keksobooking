@@ -14,11 +14,28 @@ var TIMES = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
+var CARD_ELEMENT_CLASS = '.map__card';
+
 var mapElement = document.querySelector('.map');
 var filtersElement = document.querySelector('.map__filters-container');
 var mapPinsElement = document.querySelector('.map__pins');
 var mapPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 var mapCardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+
+var adFormElement = document.querySelector('.ad-form');
+var mapFormElement = document.querySelector('.map__filters');
+var adFormInputElements = adFormElement.querySelectorAll('input, select');
+var mapFormInputElements = mapFormElement.querySelectorAll('input, select');
+
+var mapPinMainElement = document.querySelector('.map__pin--main');
+var mapPinMainElementDimensions = {
+  width: mapPinMainElement.offsetWidth,
+  height: mapPinMainElement.offsetHeight,
+  after: 19,
+};
+var addressInputElement = adFormElement.querySelector('[name="address"]');
 
 var avatarLimits = {
   MIN: 1,
@@ -186,7 +203,37 @@ var populateDom = function (array, newElement, templateElement, render, clear) {
 };
 
 var makeMapCardElement = function (listing) {
-  mapElement.insertBefore(renderCardElement(listing), filtersElement);
+  var cardElement = mapElement.querySelector(CARD_ELEMENT_CLASS);
+  if (cardElement) {
+    cardElement.remove();
+  }
+  var card = renderCardElement(listing);
+  mapElement.insertBefore(card, filtersElement);
+
+  var cardCloseElement = card.querySelector('.popup__close');
+
+  var onPopupEscPress = function (e) {
+    if (e.keyCode === ESC_KEYCODE) {
+      closePopup(card);
+    }
+  };
+
+  document.addEventListener('keydown', onPopupEscPress);
+
+  var closePopup = function () {
+    card.classList.add('hidden');
+    document.removeEventListener('keydown', onPopupEscPress);
+  };
+
+  cardCloseElement.addEventListener('click', function () {
+    closePopup(card);
+  });
+
+  cardCloseElement.addEventListener('keydown', function (e) {
+    if (e.keyCode === ENTER_KEYCODE) {
+      closePopup(card);
+    }
+  });
 };
 
 var showMap = function () {
@@ -195,9 +242,51 @@ var showMap = function () {
 
 var init = function () {
   var pins = generateListings();
+
   populateDom(pins, mapPinsElement, mapPinTemplate, renderMapPin);
-  makeMapCardElement(pins[0]);
+  var mapPinElements = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+  showMapCardElement(pins, mapPinElements);
   showMap();
+
 };
 
-init();
+var setState = function (state) {
+  mapElement.classList[state.classAction]('map--faded');
+
+  var addressX = +mapPinMainElement.style.left.replace('px', '') + mapPinMainElementDimensions.width / 2;
+  var addressY = +mapPinMainElement.style.top.replace('px', '') + mapPinMainElementDimensions.height / 2 + state.mapPinHeightAdditional;
+  addressInputElement.value = addressX + ', ' + addressY;
+
+  adFormElement.classList[state.classAction]('ad-form--disabled');
+  for (var i = 0; i < adFormInputElements.length; i++) {
+    adFormInputElements[i].disabled = state.inputDisableAction;
+  }
+  mapFormElement.classList[state.classAction]('map-form--disabled');
+  for (var j = 0; j < mapFormInputElements.length; j++) {
+    mapFormInputElements[j].disabled = state.inputDisableAction;
+  }
+};
+
+setState({
+  classAction: 'add',
+  inputDisableAction: true,
+  mapPinHeightAdditional: 0,
+});
+
+mapPinMainElement.addEventListener('click', function () {
+  setState({
+    classAction: 'remove',
+    inputDisableAction: false,
+    mapPinHeightAdditional: mapPinMainElementDimensions.after,
+  });
+  init();
+});
+
+var showMapCardElement = function (listings, mapPins) {
+  listings.forEach(function (listing, i) {
+    mapPins[i].addEventListener('click', function () {
+      makeMapCardElement(listing);
+    });
+  });
+};
