@@ -25,6 +25,11 @@ var ROOMS_TO_CAPACITY = {
   100: [0],
 };
 
+var MAP_PIN_ELEMENT_DIMENSIONS = {
+  width: 50,
+  height: 70,
+};
+
 var mapElement = document.querySelector('.map');
 var filtersElement = document.querySelector('.map__filters-container');
 var mapPinsElement = document.querySelector('.map__pins');
@@ -152,8 +157,8 @@ var generateListings = function () {
 var renderMapPin = function (listing, element) {
   var mapCardElement = element.cloneNode(true);
 
-  var x = listing.location.x + mapCardElement.offsetWidth / 2;
-  var y = listing.location.y + mapCardElement.offsetHeight;
+  var x = listing.location.x - MAP_PIN_ELEMENT_DIMENSIONS.width / 2;
+  var y = listing.location.y - MAP_PIN_ELEMENT_DIMENSIONS.height;
 
   mapCardElement.style = 'left: ' + x + 'px; top: ' + y + 'px';
   mapCardElement.querySelector('img').src = listing.author.avatar;
@@ -254,7 +259,7 @@ var setState = function (state) {
   mapElement.classList[state.classAction]('map--faded');
 
   var addressX = +mapPinMainElement.style.left.replace('px', '') + mapPinMainElementDimensions.width / 2;
-  var addressY = +mapPinMainElement.style.top.replace('px', '') + mapPinMainElementDimensions.height / 2 + state.mapPinHeightAdditional;
+  var addressY = +mapPinMainElement.style.top.replace('px', '') + state.mapPinHeight;
   addressInputElement.value = addressX + ', ' + addressY;
 
   adFormElement.classList[state.classAction]('ad-form--disabled');
@@ -297,7 +302,7 @@ var init = function () {
   setState({
     classAction: 'add',
     inputDisableAction: true,
-    mapPinHeightAdditional: 0,
+    mapPinHeight: mapPinMainElementDimensions.height / 2,
   });
 
 };
@@ -314,7 +319,7 @@ var activate = function () {
   setState({
     classAction: 'remove',
     inputDisableAction: false,
-    mapPinHeightAdditional: mapPinMainElementDimensions.after,
+    mapPinHeight: mapPinMainElementDimensions.height + mapPinMainElementDimensions.after,
   });
 
   roomsSelectElement.addEventListener('change', setCapacity);
