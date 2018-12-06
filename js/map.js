@@ -86,6 +86,11 @@ var locationYLimits = {
   MAX: 630
 };
 
+var locationYMapPinLimits = {
+  MIN: locationYLimits.MIN,
+  MAX: locationYLimits.MAX
+};
+
 var titlesLeft = TITLES.slice(0);
 
 function getRandomInt(min, max) {
@@ -267,8 +272,8 @@ var showMap = function () {
 };
 
 var setAddress = function (height) {
-  var addressX = +mapPinMainElement.style.left.replace('px', '') + mapPinMainElementDimensions.width / 2;
-  var addressY = +mapPinMainElement.style.top.replace('px', '') + height;
+  var addressX = Math.floor(+mapPinMainElement.style.left.replace('px', '') + mapPinMainElementDimensions.width / 2);
+  var addressY = Math.floor(+mapPinMainElement.style.top.replace('px', '') + height);
   addressInputElement.value = addressX + ', ' + addressY;
 };
 
@@ -347,7 +352,14 @@ var getCoords = function (coord, limits) {
   return Math.min(Math.max(coord, limits.MIN), limits.MAX);
 };
 
-var setCoords = function (startCoords, event) {
+var setLocationYMapPinLimit = function (height) {
+  locationYMapPinLimits = {
+    MIN: locationYLimits.MIN - height,
+    MAX: locationYLimits.MAX - height
+  };
+};
+
+var setCoords = function (startCoords, event, currentMapPinHeight) {
   var shift = {
     x: startCoords.x - event.clientX,
     y: startCoords.y - event.clientY
@@ -361,7 +373,9 @@ var setCoords = function (startCoords, event) {
   var calcMapPintop = mapPinMainElement.offsetTop - shift.y;
   var calcMapPinLeft = mapPinMainElement.offsetLeft - shift.x;
 
-  var mapPintop = getCoords(calcMapPintop, locationYLimits);
+  setLocationYMapPinLimit(currentMapPinHeight);
+
+  var mapPintop = getCoords(calcMapPintop, locationYMapPinLimits);
   var mapPinLeft = getCoords(calcMapPinLeft, locationXLimits);
 
   mapPinMainElement.style.top = mapPintop + 'px';
@@ -392,8 +406,7 @@ var init = function () {
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
 
-      startCoords = setCoords(startCoords, moveEvt);
-
+      startCoords = setCoords(startCoords, moveEvt, currentMapPinHeight);
       setAddress(currentMapPinHeight);
 
     };
@@ -401,7 +414,7 @@ var init = function () {
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
 
-      startCoords = setCoords(startCoords, upEvt);
+      startCoords = setCoords(startCoords, upEvt, currentMapPinHeight);
 
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
