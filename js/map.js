@@ -344,8 +344,7 @@ var onChangeTime = function (e) {
 };
 
 var getCoords = function (coord, limits) {
-  coord = Math.min(Math.max(coord, limits.MIN), limits.MAX);
-  return coord;
+  return Math.min(Math.max(coord, limits.MIN), limits.MAX);
 };
 
 var setCoords = function (startCoords, event) {
@@ -388,12 +387,14 @@ var init = function () {
       y: e.clientY
     };
 
+    var currentMapPinHeight = activated ? mapPinMainElementDimensions.height + mapPinMainElementDimensions.after : mapPinMainElementDimensions.height / 2;
+
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
 
       startCoords = setCoords(startCoords, moveEvt);
 
-      setAddress(mapPinMainElementDimensions.height / 2);
+      setAddress(currentMapPinHeight);
 
     };
 
