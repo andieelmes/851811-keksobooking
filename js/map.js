@@ -312,6 +312,10 @@ var setCapacity = function () {
   });
 };
 
+var onChangeCapacity = function () {
+  setCapacity();
+};
+
 var setMinPrice = function () {
   var type = typeSelectElement.value;
   var price = TYPE_TO_PRICE[type];
@@ -320,57 +324,24 @@ var setMinPrice = function () {
   priceInputElement.placeholder = price;
 };
 
-var syncTime = function (e) {
-  var currentSelect;
-  var selectToChange;
-  if (!e) {
-    currentSelect = timeInSelectElement;
-    selectToChange = timeOutSelectElement;
-  } else {
-    currentSelect = e.target;
-    selectToChange = currentSelect === timeInSelectElement ? timeOutSelectElement : timeInSelectElement;
-  }
+var onChangeType = function () {
+  setMinPrice();
+};
+
+var syncTime = function () {
+  var currentSelect = timeInSelectElement;
+  var selectToChange = timeOutSelectElement;
   var currentSelectValue = currentSelect.value;
   selectToChange.value = currentSelectValue;
 };
 
+var onChangeTime = function (e) {
+  var currentSelect = e.target;
+  var selectToChange = currentSelect === timeInSelectElement ? timeOutSelectElement : timeInSelectElement;
 
-var init = function () {
-  setState({
-    classAction: 'add',
-    inputDisableAction: true,
-    mapPinHeight: mapPinMainElementDimensions.height / 2,
-  });
-
+  var currentSelectValue = currentSelect.value;
+  selectToChange.value = currentSelectValue;
 };
-
-var activate = function () {
-  var pins = generateListings();
-
-  populateDom(pins, mapPinsElement, mapPinTemplate, renderMapPin);
-  var mapPinElements = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-
-  showMapCardElement(pins, mapPinElements);
-  showMap();
-
-  setState({
-    classAction: 'remove',
-    inputDisableAction: false,
-    mapPinHeight: mapPinMainElementDimensions.height + mapPinMainElementDimensions.after,
-  });
-
-  roomsSelectElement.addEventListener('change', setCapacity);
-  setCapacity();
-
-  typeSelectElement.addEventListener('change', setMinPrice);
-  setMinPrice();
-
-  timeInSelectElement.addEventListener('change', syncTime);
-  timeOutSelectElement.addEventListener('change', syncTime);
-  syncTime();
-};
-
-init();
 
 var getCoords = function (coord, limits) {
   coord = Math.min(Math.max(coord, limits.MIN), limits.MAX);
@@ -400,36 +371,77 @@ var setCoords = function (startCoords, event) {
   return startCoords;
 };
 
+var init = function () {
+  setState({
+    classAction: 'add',
+    inputDisableAction: true,
+    mapPinHeight: mapPinMainElementDimensions.height / 2,
+  });
 
-mapPinMainElement.addEventListener('mousedown', function (e) {
-  e.preventDefault();
+  var activated = false;
 
-  var startCoords = {
-    x: e.clientX,
-    y: e.clientY
-  };
+  mapPinMainElement.addEventListener('mousedown', function (e) {
+    e.preventDefault();
 
-  var onMouseMove = function (moveEvt) {
-    moveEvt.preventDefault();
+    var startCoords = {
+      x: e.clientX,
+      y: e.clientY
+    };
 
-    startCoords = setCoords(startCoords, moveEvt);
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
 
-    setAddress(mapPinMainElementDimensions.height / 2);
+      startCoords = setCoords(startCoords, moveEvt);
 
-  };
+      setAddress(mapPinMainElementDimensions.height / 2);
 
-  var onMouseUp = function (upEvt) {
-    upEvt.preventDefault();
+    };
 
-    startCoords = setCoords(startCoords, upEvt);
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
 
-    document.removeEventListener('mousemove', onMouseMove);
-    document.removeEventListener('mouseup', onMouseUp);
+      startCoords = setCoords(startCoords, upEvt);
 
-    activate();
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
 
-  };
+      if (!activated) {
+        activate();
+        activated = true;
+      }
 
-  document.addEventListener('mousemove', onMouseMove);
-  document.addEventListener('mouseup', onMouseUp);
-});
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  });
+
+};
+
+var activate = function () {
+  var pins = generateListings();
+
+  populateDom(pins, mapPinsElement, mapPinTemplate, renderMapPin);
+  var mapPinElements = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+  showMapCardElement(pins, mapPinElements);
+  showMap();
+
+  setState({
+    classAction: 'remove',
+    inputDisableAction: false,
+    mapPinHeight: mapPinMainElementDimensions.height + mapPinMainElementDimensions.after,
+  });
+
+  roomsSelectElement.addEventListener('change', onChangeCapacity);
+  setCapacity();
+
+  typeSelectElement.addEventListener('change', onChangeType);
+  setMinPrice();
+
+  timeInSelectElement.addEventListener('change', onChangeTime);
+  timeOutSelectElement.addEventListener('change', onChangeTime);
+  syncTime();
+};
+
+init();
