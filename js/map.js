@@ -25,6 +25,13 @@ var ROOMS_TO_CAPACITY = {
   100: [0],
 };
 
+var TYPE_TO_PRICE = {
+  palace: 10000,
+  flat: 1000,
+  house: 5000,
+  bungalo: 0
+};
+
 var MAP_PIN_ELEMENT_DIMENSIONS = {
   width: 50,
   height: 70,
@@ -51,6 +58,10 @@ var mapPinMainElementDimensions = {
 var addressInputElement = adFormElement.querySelector('[name="address"]');
 var roomsSelectElement = adFormElement.querySelector('[name="rooms"]');
 var capacitySelectElement = adFormElement.querySelector('[name="capacity"]');
+var typeSelectElement = adFormElement.querySelector('[name="type"]');
+var priceInputElement = adFormElement.querySelector('[name="price"]');
+var timeInSelectElement = adFormElement.querySelector('[name="timein"]');
+var timeOutSelectElement = adFormElement.querySelector('[name="timeout"]');
 
 var avatarLimits = {
   MIN: 1,
@@ -297,6 +308,28 @@ var setCapacity = function () {
   });
 };
 
+var setMinPrice = function () {
+  var type = typeSelectElement.value;
+  var price = TYPE_TO_PRICE[type];
+
+  priceInputElement.min = price;
+  priceInputElement.placeholder = price;
+};
+
+var syncTime = function (e) {
+  var currentSelect;
+  var selectToChange;
+  if (!e) {
+    currentSelect = timeInSelectElement;
+    selectToChange = timeOutSelectElement;
+  } else {
+    currentSelect = e.target;
+    selectToChange = currentSelect === timeInSelectElement ? timeOutSelectElement : timeInSelectElement;
+  }
+  var currentSelectValue = currentSelect.value;
+  selectToChange.value = currentSelectValue;
+};
+
 
 var init = function () {
   setState({
@@ -323,8 +356,14 @@ var activate = function () {
   });
 
   roomsSelectElement.addEventListener('change', setCapacity);
-
   setCapacity();
+
+  typeSelectElement.addEventListener('change', setMinPrice);
+  setMinPrice();
+
+  timeInSelectElement.addEventListener('change', syncTime);
+  timeOutSelectElement.addEventListener('change', syncTime);
+  syncTime();
 };
 
 init();

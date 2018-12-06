@@ -108,7 +108,7 @@
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--wide">
           <label class="ad-form__label" for="address">Адрес</label>
-          <input id="address" name="address" type="text">
+          <input id="address" name="address" type="text" readonly>
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="type">Тип жилья</label>
@@ -126,8 +126,8 @@
         <fieldset class="ad-form__element ad-form__element--time">
           <label class="ad-form__label" for="timein">Время заезда и выезда</label>
           <select id="timein" name="timein">
-            <option value="12:00" selected>После 12</option>
-            <option value="13:00">После 13</option>
+            <option value="12:00">После 12</option>
+            <option value="13:00" selected>После 13</option>
             <option value="14:00">После 14</option>
           </select>
           <select id="timeout" name="timeout" title="Time to go out">
