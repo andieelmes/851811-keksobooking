@@ -78,7 +78,7 @@ var roomsLimits = {
 
 var locationXLimits = {
   MIN: 0,
-  MAX: mapPinsElement.offsetWidth
+  MAX: mapPinsElement.offsetWidth - mapPinMainElement.offsetWidth
 };
 
 var locationYLimits = {
@@ -266,12 +266,16 @@ var showMap = function () {
   mapElement.classList.remove('hidden');
 };
 
+var setAddress = function (height) {
+  var addressX = +mapPinMainElement.style.left.replace('px', '') + mapPinMainElementDimensions.width / 2;
+  var addressY = +mapPinMainElement.style.top.replace('px', '') + height;
+  addressInputElement.value = addressX + ', ' + addressY;
+};
+
 var setState = function (state) {
   mapElement.classList[state.classAction]('map--faded');
 
-  var addressX = +mapPinMainElement.style.left.replace('px', '') + mapPinMainElementDimensions.width / 2;
-  var addressY = +mapPinMainElement.style.top.replace('px', '') + state.mapPinHeight;
-  addressInputElement.value = addressX + ', ' + addressY;
+  setAddress(state.mapPinHeight);
 
   adFormElement.classList[state.classAction]('ad-form--disabled');
   for (var i = 0; i < adFormInputElements.length; i++) {
@@ -368,4 +372,64 @@ var activate = function () {
 
 init();
 
-mapPinMainElement.addEventListener('click', activate);
+var getCoords = function (coord, limits) {
+  coord = Math.min(Math.max(coord, limits.MIN), limits.MAX);
+  return coord;
+};
+
+var setCoords = function (startCoords, event) {
+  var shift = {
+    x: startCoords.x - event.clientX,
+    y: startCoords.y - event.clientY
+  };
+
+  startCoords = {
+    x: event.clientX,
+    y: event.clientY
+  };
+
+  var calcMapPintop = mapPinMainElement.offsetTop - shift.y;
+  var calcMapPinLeft = mapPinMainElement.offsetLeft - shift.x;
+
+  var mapPintop = getCoords(calcMapPintop, locationYLimits);
+  var mapPinLeft = getCoords(calcMapPinLeft, locationXLimits);
+
+  mapPinMainElement.style.top = mapPintop + 'px';
+  mapPinMainElement.style.left = mapPinLeft + 'px';
+
+  return startCoords;
+};
+
+
+mapPinMainElement.addEventListener('mousedown', function (e) {
+  e.preventDefault();
+
+  var startCoords = {
+    x: e.clientX,
+    y: e.clientY
+  };
+
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    startCoords = setCoords(startCoords, moveEvt);
+
+    setAddress(mapPinMainElementDimensions.height / 2);
+
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    startCoords = setCoords(startCoords, upEvt);
+
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+
+    activate();
+
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+});
