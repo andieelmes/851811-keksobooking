@@ -6,6 +6,10 @@
   var mapPinsElement = document.querySelector('.map__pins');
 
   var mapPinMainElement = document.querySelector('.map__pin--main');
+  var mapPinMainElementInitialCoords = {
+    top: mapPinMainElement.style.top,
+    left: mapPinMainElement.style.left,
+  };
   var mapPinMainElementDimensions = {
     width: mapPinMainElement.offsetWidth,
     height: mapPinMainElement.offsetHeight,
@@ -34,10 +38,13 @@
   var timeInSelectElement = adFormElement.querySelector('[name="timein"]');
   var timeOutSelectElement = adFormElement.querySelector('[name="timeout"]');
 
+  var cardElementsClasses = ['.popup__title', '.popup__text--address', '.popup__text--price', '.popup__type', '.popup__text--capacity', '.popup__text--time', '.popup__description', '.popup__avatar'];
+
   window.vars = {
     mapElement: mapElement,
     mapPinsElement: mapPinsElement,
     mapPinMainElement: mapPinMainElement,
+    mapPinMainElementInitialCoords: mapPinMainElementInitialCoords,
     mapPinMainElementDimensions: mapPinMainElementDimensions,
     locationYLimits: locationYLimits,
     locationXLimits: locationXLimits,
@@ -47,5 +54,6 @@
     typeSelectElement: typeSelectElement,
     timeInSelectElement: timeInSelectElement,
     timeOutSelectElement: timeOutSelectElement,
+    cardElementsClasses: cardElementsClasses,
   };
 })();

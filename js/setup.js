@@ -26,26 +26,17 @@
 
     var cardCloseElement = card.querySelector('.popup__close');
 
-    var onPopupEscPress = function (e) {
-      if (e.keyCode === window.consts.ESC_KEYCODE) {
-        closePopup(card);
-      }
-    };
-
-    document.addEventListener('keydown', onPopupEscPress);
-
-    var closePopup = function () {
-      card.classList.add('hidden');
-      document.removeEventListener('keydown', onPopupEscPress);
-    };
+    document.addEventListener('keydown', function (e) {
+      window.utils.onPopupEscPress(e, card);
+    });
 
     cardCloseElement.addEventListener('click', function () {
-      closePopup(card);
+      window.utils.closePopup(card);
     });
 
     cardCloseElement.addEventListener('keydown', function (e) {
       if (e.keyCode === window.consts.ENTER_KEYCODE) {
-        closePopup(card);
+        window.utils.closePopup(card);
       }
     });
   };
