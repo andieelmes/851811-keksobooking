@@ -56,15 +56,9 @@
       mapPinElements[i].remove();
     }
 
-    var cardElement = document.querySelector(window.consts.CARD_ELEMENT_CLASS);
-    if (cardElement) {
-      cardElement.remove();
-    }
-
+    window.utils.removeCard();
     window.utils.resetMapPin();
-
     window.utils.setAddress(window.vars.mapPinMainElement.offsetHeight / 2);
-
     window.state.init();
   };
 

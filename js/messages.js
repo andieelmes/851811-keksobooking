@@ -19,11 +19,13 @@
   var onLoad = function () {
     var success = successTemplate.cloneNode(true);
     mainElement.appendChild(success);
+
     subscribeToEvents(success);
     window.vars.adFormElement.reset();
     window.validate();
     window.utils.resetMapPin();
     window.utils.setAddress(window.vars.mapPinMainElementDimensions.height + window.vars.mapPinMainElementDimensions.after);
+    window.utils.removeCard();
   };
 
   var onError = function () {

@@ -75,6 +75,13 @@
     window.vars.mapPinMainElement.style = 'left: ' + window.vars.mapPinMainElementInitialCoords.left + '; top: ' + window.vars.mapPinMainElementInitialCoords.top;
   };
 
+  var removeCard = function () {
+    var cardElement = document.querySelector(window.consts.CARD_ELEMENT_CLASS);
+    if (cardElement) {
+      cardElement.remove();
+    }
+  };
+
   window.utils = {
     getRandomInt: getRandomInt,
     getRandomElement: getRandomElement,
@@ -86,5 +93,6 @@
     onPopupEscPress: onPopupEscPress,
     closePopup: closePopup,
     resetMapPin: resetMapPin,
+    removeCard: removeCard,
   };
 })();
