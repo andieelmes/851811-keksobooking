@@ -54,7 +54,7 @@
         moveEvt.preventDefault();
 
         startCoords = setCoords(startCoords, moveEvt, currentMapPinHeight);
-        window.helpers.setAddress(currentMapPinHeight);
+        window.utils.setAddress(currentMapPinHeight);
 
       };
 

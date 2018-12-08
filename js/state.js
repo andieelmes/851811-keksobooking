@@ -11,7 +11,7 @@
   var setState = function (state) {
     window.vars.mapElement.classList[state.classAction]('map--faded');
 
-    window.helpers.setAddress(state.mapPinHeight);
+    window.utils.setAddress(state.mapPinHeight);
 
     adFormElement.classList[state.classAction]('ad-form--disabled');
     for (var i = 0; i < adFormInputElements.length; i++) {
@@ -27,7 +27,7 @@
   var activate = function () {
     var pins = window.generateListings();
 
-    window.helpers.populateDom(pins, window.vars.mapPinsElement, mapPinTemplate, window.render.renderMapPin);
+    window.utils.populateDom(pins, window.vars.mapPinsElement, mapPinTemplate, window.render.renderMapPin);
     var mapPinElements = document.querySelectorAll('.map__pin:not(.map__pin--main)');
 
     window.setup.showMapCardElement(pins, mapPinElements);
@@ -39,15 +39,15 @@
       mapPinHeight: window.vars.mapPinMainElementDimensions.height + window.vars.mapPinMainElementDimensions.after,
     });
 
-    window.vars.roomsSelectElement.addEventListener('change', window.validate.onChangeCapacity);
-    window.validate.setCapacity();
+    window.vars.roomsSelectElement.addEventListener('change', window.validation.onChangeCapacity);
+    window.validation.setCapacity();
 
-    window.vars.typeSelectElement.addEventListener('change', window.validate.onChangeType);
-    window.validate.setMinPrice();
+    window.vars.typeSelectElement.addEventListener('change', window.validation.onChangeType);
+    window.validation.setMinPrice();
 
-    window.vars.timeInSelectElement.addEventListener('change', window.validate.onChangeTime);
-    window.vars.timeOutSelectElement.addEventListener('change', window.validate. onChangeTime);
-    window.validate.syncTime();
+    window.vars.timeInSelectElement.addEventListener('change', window.validation.onChangeTime);
+    window.vars.timeOutSelectElement.addEventListener('change', window.validation. onChangeTime);
+    window.validation.syncTime();
   };
 
   window.state = {

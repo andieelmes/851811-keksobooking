@@ -48,10 +48,10 @@
     cardElement.querySelector('.popup__photos').src = listing.author.avatar;
 
     var featureElement = cardElement.querySelector('.popup__features');
-    window.helpers.populateDom(listing.offer.features, featureElement, cardElement, renderFeature, true);
+    window.utils.populateDom(listing.offer.features, featureElement, cardElement, renderFeature, true);
 
     var photoElement = cardElement.querySelector('.popup__photos');
-    window.helpers.populateDom(listing.offer.photos, photoElement, cardElement, renderPhoto, true);
+    window.utils.populateDom(listing.offer.photos, photoElement, cardElement, renderPhoto, true);
 
     return cardElement;
   };

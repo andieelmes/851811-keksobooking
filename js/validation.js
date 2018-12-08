@@ -52,7 +52,7 @@
     selectToChange.value = currentSelectValue;
   };
 
-  window.validate = {
+  window.validation = {
     setCapacity: setCapacity,
     onChangeCapacity: onChangeCapacity,
     setMinPrice: setMinPrice,
