@@ -17,10 +17,10 @@
   };
 
   var onLoad = function () {
-    var success = successTemplate.cloneNode(true);
-    mainElement.appendChild(success);
+    var successElement = successTemplate.cloneNode(true);
+    mainElement.appendChild(successElement);
 
-    subscribeToEvents(success);
+    subscribeToEvents(successElement);
     window.vars.adFormElement.reset();
     window.validate();
     window.utils.resetMapPin();
@@ -29,15 +29,15 @@
   };
 
   var onError = function () {
-    var error = errorTemplate.cloneNode(true);
-    mainElement.appendChild(error);
+    var errorElement = errorTemplate.cloneNode(true);
+    mainElement.appendChild(errorElement);
 
-    var resetBtn = error.querySelector('.error__button');
+    var resetBtnElement = errorElement.querySelector('.error__button');
 
-    subscribeToEvents(error);
-    resetBtn.addEventListener('click', function () {
+    subscribeToEvents(errorElement);
+    resetBtnElement.addEventListener('click', function () {
       window.vars.adFormElement.reset();
-      window.utils.closePopup(error);
+      window.utils.closePopup(errorElement);
       window.state.deactivate();
     });
   };
