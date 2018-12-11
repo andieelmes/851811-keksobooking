@@ -52,12 +52,15 @@
     selectToChange.value = currentSelectValue;
   };
 
-  window.validation = {
-    setCapacity: setCapacity,
-    onChangeCapacity: onChangeCapacity,
-    setMinPrice: setMinPrice,
-    onChangeType: onChangeType,
-    syncTime: syncTime,
-    onChangeTime: onChangeTime,
+  window.synchronizeFields = function () {
+    window.vars.roomsSelectElement.addEventListener('change', onChangeCapacity);
+    setCapacity();
+
+    window.vars.typeSelectElement.addEventListener('change', onChangeType);
+    setMinPrice();
+
+    window.vars.timeInSelectElement.addEventListener('change', onChangeTime);
+    window.vars.timeOutSelectElement.addEventListener('change', onChangeTime);
+    syncTime();
   };
 })();

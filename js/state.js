@@ -23,35 +23,57 @@
     }
   };
 
+  var showPins = function (pins) {
+    window.state.pins = pins;
+    window.utils.populateDom(pins, window.vars.mapPinsElement, mapPinTemplate, window.render.renderMapPin);
+    return window.state.pins;
+  };
 
   var activate = function () {
-    var pins = window.generateListings();
+    window.backend.load(showPins, window.backend.onDefaultError);
 
-    window.utils.populateDom(pins, window.vars.mapPinsElement, mapPinTemplate, window.render.renderMapPin);
-    var mapPinElements = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    var mapPinElements;
+    window.addEventListener('listingLoad', function () {
+      mapPinElements = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+      window.setup.showMapCardElement(window.state.pins, mapPinElements);
+    });
 
-    window.setup.showMapCardElement(pins, mapPinElements);
     window.setup.showMap();
 
-    window.state.setState({
+    setState({
       classAction: 'remove',
       inputDisableAction: false,
       mapPinHeight: window.vars.mapPinMainElementDimensions.height + window.vars.mapPinMainElementDimensions.after,
     });
 
-    window.vars.roomsSelectElement.addEventListener('change', window.validation.onChangeCapacity);
-    window.validation.setCapacity();
+    window.synchronizeFields();
+  };
 
-    window.vars.typeSelectElement.addEventListener('change', window.validation.onChangeType);
-    window.validation.setMinPrice();
+  var deactivate = function () {
+    var mapPinElements = document.querySelectorAll('.map__pin:not(.map__pin--main)');
 
-    window.vars.timeInSelectElement.addEventListener('change', window.validation.onChangeTime);
-    window.vars.timeOutSelectElement.addEventListener('change', window.validation. onChangeTime);
-    window.validation.syncTime();
+    for (var i = 0; i < mapPinElements.length; i++) {
+      mapPinElements[i].remove();
+    }
+
+    window.utils.removeCard();
+    window.utils.resetMapPin();
+    window.utils.setAddress(window.vars.mapPinMainElement.offsetHeight / 2);
+    window.state.init();
+  };
+
+  var init = function () {
+    setState({
+      classAction: 'add',
+      inputDisableAction: true,
+      mapPinHeight: window.vars.mapPinMainElementDimensions.height / 2,
+    });
+    window.drag();
   };
 
   window.state = {
-    setState: setState,
     activate: activate,
+    deactivate: deactivate,
+    init: init,
   };
 })();

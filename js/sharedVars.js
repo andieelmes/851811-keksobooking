@@ -6,6 +6,10 @@
   var mapPinsElement = document.querySelector('.map__pins');
 
   var mapPinMainElement = document.querySelector('.map__pin--main');
+  var mapPinMainElementInitialCoords = {
+    top: mapPinMainElement.style.top,
+    left: mapPinMainElement.style.left,
+  };
   var mapPinMainElementDimensions = {
     width: mapPinMainElement.offsetWidth,
     height: mapPinMainElement.offsetHeight,
@@ -38,6 +42,7 @@
     mapElement: mapElement,
     mapPinsElement: mapPinsElement,
     mapPinMainElement: mapPinMainElement,
+    mapPinMainElementInitialCoords: mapPinMainElementInitialCoords,
     mapPinMainElementDimensions: mapPinMainElementDimensions,
     locationYLimits: locationYLimits,
     locationXLimits: locationXLimits,
