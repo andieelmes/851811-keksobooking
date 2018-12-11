@@ -22,7 +22,7 @@
 
     subscribeToEvents(successElement);
     window.vars.adFormElement.reset();
-    window.validate();
+    window.synchronizeFields();
     window.utils.resetMapPin();
     window.utils.setAddress(window.vars.mapPinMainElementDimensions.height + window.vars.mapPinMainElementDimensions.after);
     window.utils.removeCard();

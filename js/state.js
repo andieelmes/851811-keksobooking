@@ -46,7 +46,7 @@
       mapPinHeight: window.vars.mapPinMainElementDimensions.height + window.vars.mapPinMainElementDimensions.after,
     });
 
-    window.validate();
+    window.synchronizeFields();
   };
 
   var deactivate = function () {

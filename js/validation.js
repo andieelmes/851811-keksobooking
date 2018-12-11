@@ -52,12 +52,7 @@
     selectToChange.value = currentSelectValue;
   };
 
-  var onSubmitForm = function (e) {
-    window.backend.save(new FormData(window.vars.adFormElement), window.messages.onLoad, window.messages.onError);
-    e.preventDefault();
-  };
-
-  window.validate = function () {
+  window.synchronizeFields = function () {
     window.vars.roomsSelectElement.addEventListener('change', onChangeCapacity);
     setCapacity();
 
@@ -67,7 +62,5 @@
     window.vars.timeInSelectElement.addEventListener('change', onChangeTime);
     window.vars.timeOutSelectElement.addEventListener('change', onChangeTime);
     syncTime();
-
-    window.vars.adFormElement.addEventListener('submit', onSubmitForm);
   };
 })();
