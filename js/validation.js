@@ -8,7 +8,7 @@
   var setCapacity = function () {
     var rooms = window.vars.roomsSelectElement.value;
     var capacityOptions = capacitySelectElement.querySelectorAll('option');
-    var capacity = window.consts.ROOMS_TO_CAPACITY[rooms];
+    var capacity = window.consts.RoomsToCapacity[rooms];
 
     capacityOptions.forEach(function (option) {
       option.disabled = true;
@@ -27,7 +27,7 @@
 
   var setMinPrice = function () {
     var type = window.vars.typeSelectElement.value;
-    var price = window.consts.TYPE_TO_PRICE[type];
+    var price = window.consts.TypeToPrice[type.toUpperCase()];
 
     priceInputElement.min = price;
     priceInputElement.placeholder = price;
