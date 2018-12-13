@@ -31,12 +31,19 @@
     MAX: locationYLimits.MAX
   };
 
+  var listings = [];
+  var filteredListings = [];
+
   var adFormElement = document.querySelector('.ad-form');
 
   var roomsSelectElement = adFormElement.querySelector('[name="rooms"]');
   var typeSelectElement = adFormElement.querySelector('[name="type"]');
   var timeInSelectElement = adFormElement.querySelector('[name="timein"]');
   var timeOutSelectElement = adFormElement.querySelector('[name="timeout"]');
+
+  var mapFormElement = document.querySelector('.map__filters');
+
+  var mapPinElements = document.querySelectorAll('.map__pin:not(.map__pin--main)');
 
   window.vars = {
     mapElement: mapElement,
@@ -47,10 +54,14 @@
     locationYLimits: locationYLimits,
     locationXLimits: locationXLimits,
     locationYMapPinLimits: locationYMapPinLimits,
+    listings: listings,
+    filteredListings: filteredListings,
     adFormElement: adFormElement,
     roomsSelectElement: roomsSelectElement,
     typeSelectElement: typeSelectElement,
     timeInSelectElement: timeInSelectElement,
     timeOutSelectElement: timeOutSelectElement,
+    mapFormElement: mapFormElement,
+    mapPinElements: mapPinElements,
   };
 })();
