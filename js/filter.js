@@ -66,25 +66,32 @@
     return result;
   };
 
+  var checkFilterKeyName = function (name, listing, selectedValue) {
+    var result;
+    switch (name) {
+      case 'type':
+        result = listing.offer.type === selectedValue;
+        break;
+      case 'price':
+        result = checkPrice(listing, selectedValue);
+        break;
+      case 'features':
+        result = checkFeatures(listing);
+        break;
+      default:
+        result = listing.offer[name] === +selectedValue;
+    }
+
+    return result;
+  };
+
   var filterListings = function (listings, selectedValue, name) {
     return listings.filter(function (listing) {
       var result;
       if (selectedValue === 'any') {
         result = listing.offer[name];
       } else {
-        switch (name) {
-          case 'type':
-            result = listing.offer.type === selectedValue;
-            break;
-          case 'price':
-            result = checkPrice(listing, selectedValue);
-            break;
-          case 'features':
-            result = checkFeatures(listing);
-            break;
-          default:
-            result = listing.offer[name] === +selectedValue;
-        }
+        result = checkFilterKeyName(name, listing, selectedValue);
       }
       return result;
     });
