@@ -53,9 +53,8 @@
   };
 
   var checkFeatures = function (listing) {
-    var result;
+    var result = true;
     if (filters.features.length) {
-      result = true;
       for (var i = 0; i < filters.features.length; i++) {
         var currentFeature = filters.features[i];
         if (listing.offer.features.indexOf(currentFeature) === -1) {
@@ -63,8 +62,6 @@
           break;
         }
       }
-    } else {
-      result = true;
     }
     return result;
   };
