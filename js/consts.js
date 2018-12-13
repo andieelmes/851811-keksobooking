@@ -21,10 +21,10 @@
   };
 
   var TypesTranslation = {
-    PALACE: 'Дворец',
-    FLAT: 'Квартира',
-    HOUSE: 'Дом',
-    BUNGALO: 'Бунгало'
+    palace: 'Дворец',
+    flat: 'Квартира',
+    house: 'Дом',
+    bungalo: 'Бунгало'
   };
 
   var RoomsToCapacity = {
@@ -35,22 +35,22 @@
   };
 
   var TypeToPrice = {
-    PALACE: 10000,
-    FLAT: 1000,
-    HOUSE: 5000,
-    BUNGALO: 0
+    palace: 10000,
+    flat: 1000,
+    house: 5000,
+    bungalo: 0
   };
 
   var PriceCategory = {
-    LOW: {
+    low: {
       MIN: 0,
       MAX: 10000,
     },
-    MIDDLE: {
+    middle: {
       MIN: 10000,
       MAX: 50000,
     },
-    HIGH: {
+    high: {
       MIN: 50000,
       MAX: Infinity,
     },

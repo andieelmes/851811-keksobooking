@@ -49,7 +49,7 @@
   });
 
   var checkPrice = function (listing, selectedValue) {
-    return listing.offer.price > window.consts.PriceCategory[selectedValue.toUpperCase()].MIN && listing.offer.price < window.consts.PriceCategory[selectedValue.toUpperCase()].MAX;
+    return listing.offer.price > window.consts.PriceCategory[selectedValue].MIN && listing.offer.price < window.consts.PriceCategory[selectedValue].MAX;
   };
 
   var checkFeatures = function (listing) {

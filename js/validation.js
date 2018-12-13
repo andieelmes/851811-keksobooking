@@ -27,7 +27,7 @@
 
   var setMinPrice = function () {
     var type = window.vars.typeSelectElement.value;
-    var price = window.consts.TypeToPrice[type.toUpperCase()];
+    var price = window.consts.TypeToPrice[type];
 
     priceInputElement.min = price;
     priceInputElement.placeholder = price;
