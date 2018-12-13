@@ -37,12 +37,12 @@
   };
 
   var load = function (onLoad, onError) {
-    var successHandler = function (data) {
+    var onSuccess = function (data) {
       window.vars.listings = data;
       onLoad();
     };
 
-    var xhr = makeXhr('GET', URL.LOAD, successHandler, onError);
+    var xhr = makeXhr('GET', URL.LOAD, onSuccess, onError);
     xhr.send();
   };
 
