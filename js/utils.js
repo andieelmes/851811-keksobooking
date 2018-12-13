@@ -82,6 +82,28 @@
     }
   };
 
+  var debounce = function (cb) {
+    var lastTimeout = null;
+
+    return function () {
+      var parameters = arguments;
+      if (lastTimeout) {
+        window.clearTimeout(lastTimeout);
+      }
+      lastTimeout = window.setTimeout(function () {
+        cb.apply(null, parameters);
+      }, window.vars.DEBOUNCE_INTERVAL);
+    };
+  };
+
+  var removeArrayElement = function (array, element) {
+    var index = array.indexOf(element);
+    if (index !== -1) {
+      var result = array.splice(index, 1);
+    }
+    return result;
+  };
+
   window.utils = {
     getRandomInt: getRandomInt,
     getRandomElement: getRandomElement,
@@ -94,5 +116,7 @@
     closePopup: closePopup,
     resetMapPin: resetMapPin,
     removeCard: removeCard,
+    debounce: debounce,
+    removeArrayElement: removeArrayElement,
   };
 })();

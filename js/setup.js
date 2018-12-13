@@ -8,9 +8,11 @@
     window.vars.mapElement.classList.remove('hidden');
   };
 
-  var showMapCardElement = function (listings, mapPins) {
-    listings.forEach(function (listing, i) {
-      mapPins[i].addEventListener('click', function () {
+  var showMapCardElement = function (listings) {
+    listings.forEach(function (listing) {
+      var address = listing.location.x.toString() + ', ' + listing.location.y.toString();
+      var pin = window.vars.mapPinsElement.querySelector('[data-address="' + address + '"]');
+      pin.addEventListener('click', function () {
         makeMapCardElement(listing);
       });
     });
