@@ -5,6 +5,24 @@
   var photoInputElement = document.querySelector('.ad-form__upload input[type=file]');
   var photoElement = document.querySelector('.ad-form__photo');
 
+  var addInputStyling = function (input) {
+    var parent = input.parentElement;
+    parent.style.position = 'relative';
+    input.classList.remove('visually-hidden');
+    Object.assign(input.style, {
+      position: 'absolute',
+      zIndex: 1,
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      opacity: 0,
+    });
+  };
+
+  addInputStyling(avatarInputElement);
+  addInputStyling(photoInputElement);
+
   var subscribeToFileInputChangeEvent = function (input, preview, multiple) {
     if (multiple) {
       var uploaded = false;
@@ -45,5 +63,15 @@
 
   subscribeToFileInputChangeEvent(avatarInputElement, avatarElement);
   subscribeToFileInputChangeEvent(photoInputElement, photoElement, true);
+
+  var onDefaultDragEvent = function (e) {
+    if (e.target.getAttribute('type') !== 'file') {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  };
+
+  window.addEventListener('dragover', onDefaultDragEvent);
+  window.addEventListener('drop', onDefaultDragEvent);
 
 })();
