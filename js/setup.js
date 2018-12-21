@@ -14,10 +14,11 @@
       var pin = window.vars.mapPinsElement.querySelector('[data-address="' + address + '"]');
       pin.addEventListener('click', function () {
         makeMapCardElement(listing, pin);
-        window.vars.mapPinsElement.querySelectorAll('.map__pin').forEach(function (item) {
-          item.classList.remove('map__pin--active');
-        });
-        pin.classList.add('map__pin--active');
+        var previousActivePin = window.vars.mapPinsElement.querySelector(window.consts.ACTIVE_PIN_CLASS);
+        if (previousActivePin) {
+          window.utils.removeActivePinClass(previousActivePin);
+        }
+        pin.classList.add(window.consts.ACTIVE_PIN_CLASS);
       });
     });
   };
@@ -34,18 +35,18 @@
 
     document.addEventListener('keydown', function (e) {
       window.utils.onPopupEscPress(e, card);
-      pin.classList.remove('map__pin--active');
+      window.utils.removeActivePinClass(pin);
     });
 
     cardCloseElement.addEventListener('click', function () {
       window.utils.closePopup(card);
-      pin.classList.remove('map__pin--active');
+      window.utils.removeActivePinClass(pin);
     });
 
     cardCloseElement.addEventListener('keydown', function (e) {
       if (e.keyCode === window.consts.ENTER_KEYCODE) {
         window.utils.closePopup(card);
-        pin.classList.remove('map__pin--active');
+        window.utils.removeActivePinClass(pin);
       }
     });
   };
