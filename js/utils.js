@@ -104,6 +104,10 @@
     return result;
   };
 
+  var removeActivePinClass = function (element) {
+    element.classList.remove(window.consts.ACTIVE_PIN_CLASS);
+  };
+
   window.utils = {
     getRandomInt: getRandomInt,
     getRandomElement: getRandomElement,
@@ -118,5 +122,6 @@
     removeCard: removeCard,
     debounce: debounce,
     removeArrayElement: removeArrayElement,
+    removeActivePinClass: removeActivePinClass,
   };
 })();
