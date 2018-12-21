@@ -1,6 +1,11 @@
 'use strict';
 (function () {
-  var uploadPhoto = function (input, preview, multiple) {
+  var avatarInputElement = document.querySelector('.ad-form__field input[type=file]');
+  var avatarElement = document.querySelector('.ad-form-header__preview img');
+  var photoInputElement = document.querySelector('.ad-form__upload input[type=file]');
+  var photoElement = document.querySelector('.ad-form__photo');
+
+  var subscribeToFileInputChangeEvent = function (input, preview, multiple) {
     if (multiple) {
       var uploaded = false;
       var previewTemplate = preview.cloneNode(true);
@@ -38,14 +43,7 @@
     input.addEventListener('change', onFileInputChange);
   };
 
-  var avatarInputElement = document.querySelector('.ad-form__field input[type=file]');
-  var avatarElement = document.querySelector('.ad-form-header__preview img');
-
-  uploadPhoto(avatarInputElement, avatarElement);
-
-  var photoInputElement = document.querySelector('.ad-form__upload input[type=file]');
-  var photoElement = document.querySelector('.ad-form__photo');
-
-  uploadPhoto(photoInputElement, photoElement, true);
+  subscribeToFileInputChangeEvent(avatarInputElement, avatarElement);
+  subscribeToFileInputChangeEvent(photoInputElement, photoElement, true);
 
 })();
