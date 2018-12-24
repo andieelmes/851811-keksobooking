@@ -108,6 +108,29 @@
     element.classList.remove(window.consts.ACTIVE_PIN_CLASS);
   };
 
+  var resetListingForm = function () {
+    window.vars.adFormElement.reset();
+
+    window.synchronizeFields();
+
+    window.utils.resetMapPin();
+    window.utils.setAddress(window.vars.mapPinMainElementDimensions.height + window.vars.mapPinMainElementDimensions.after);
+    window.utils.removeCard();
+
+    window.vars.avatarElement.src = window.consts.DEFAULT_AVATAR_SRC;
+    var photoElements = window.vars.adFormElement.querySelectorAll('.ad-form__photo');
+    var parentElement = photoElements[0].parentElement;
+    photoElements.forEach(function (element) {
+      element.remove();
+    });
+    parentElement.appendChild(window.vars.photoElementTemplate);
+  };
+
+  var resetListingFormWithAButton = function (e) {
+    e.preventDefault();
+    window.utils.resetListingForm();
+  };
+
   window.utils = {
     getRandomInt: getRandomInt,
     getRandomElement: getRandomElement,
@@ -123,5 +146,7 @@
     debounce: debounce,
     removeArrayElement: removeArrayElement,
     removeActivePinClass: removeActivePinClass,
+    resetListingForm: resetListingForm,
+    resetListingFormWithAButton: resetListingFormWithAButton,
   };
 })();

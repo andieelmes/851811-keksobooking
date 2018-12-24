@@ -21,11 +21,7 @@
     mainElement.appendChild(successElement);
 
     subscribeToEvents(successElement);
-    window.vars.adFormElement.reset();
-    window.synchronizeFields();
-    window.utils.resetMapPin();
-    window.utils.setAddress(window.vars.mapPinMainElementDimensions.height + window.vars.mapPinMainElementDimensions.after);
-    window.utils.removeCard();
+    window.utils.resetListingForm();
   };
 
   var onError = function () {
@@ -36,7 +32,6 @@
 
     subscribeToEvents(errorElement);
     resetBtnElement.addEventListener('click', function () {
-      window.vars.adFormElement.reset();
       window.utils.closePopup(errorElement);
       window.state.deactivate();
     });

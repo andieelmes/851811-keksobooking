@@ -45,6 +45,10 @@
 
   var mapPinElements = document.querySelectorAll('.map__pin:not(.map__pin--main)');
 
+  var avatarElement = document.querySelector('.ad-form-header__preview img');
+  var photoElement = document.querySelector('.ad-form__photo');
+  var photoElementTemplate = photoElement.cloneNode(true);
+
   window.vars = {
     mapElement: mapElement,
     mapPinsElement: mapPinsElement,
@@ -63,5 +67,8 @@
     timeOutSelectElement: timeOutSelectElement,
     mapFormElement: mapFormElement,
     mapPinElements: mapPinElements,
+    avatarElement: avatarElement,
+    photoElement: photoElement,
+    photoElementTemplate: photoElementTemplate,
   };
 })();

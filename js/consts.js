@@ -15,6 +15,8 @@
     height: 70,
   };
 
+  var DEFAULT_AVATAR_SRC = '';
+
   var TypesTranslation = {
     palace: 'Дворец',
     flat: 'Квартира',
@@ -60,6 +62,7 @@
     ACTIVE_PIN_CLASS: ACTIVE_PIN_CLASS,
     DEBOUNCE_INTERVAL: DEBOUNCE_INTERVAL,
     MAP_PIN_ELEMENT_DIMENSIONS: MAP_PIN_ELEMENT_DIMENSIONS,
+    DEFAULT_AVATAR_SRC: DEFAULT_AVATAR_SRC,
     TypesTranslation: TypesTranslation,
     RoomsToCapacity: RoomsToCapacity,
     TypeToPrice: TypeToPrice,

@@ -1,13 +1,11 @@
 'use strict';
 (function () {
   var avatarInputElement = document.querySelector('.ad-form__field input[type=file]');
-  var avatarElement = document.querySelector('.ad-form-header__preview img');
   var photoInputElement = document.querySelector('.ad-form__upload input[type=file]');
-  var photoElement = document.querySelector('.ad-form__photo');
 
   var addInputStyling = function (input) {
-    var parent = input.parentElement;
-    parent.style.position = 'relative';
+    var parentElement = input.parentElement;
+    parentElement.style.position = 'relative';
     input.classList.remove('visually-hidden');
     Object.assign(input.style, {
       position: 'absolute',
@@ -23,10 +21,11 @@
   addInputStyling(avatarInputElement);
   addInputStyling(photoInputElement);
 
+  window.consts.DEFAULT_AVATAR_SRC = window.vars.avatarElement.src;
+
   var subscribeToFileInputChangeEvent = function (input, preview, multiple) {
     if (multiple) {
       var uploaded = false;
-      var previewTemplate = preview.cloneNode(true);
     }
 
     var onFileInputChange = function () {
@@ -41,10 +40,10 @@
             photo.style.display = 'block';
 
             if (uploaded) {
-              var parent = preview.parentElement;
-              var nextPreview = previewTemplate.cloneNode(true);
-              nextPreview.appendChild(photo);
-              parent.appendChild(nextPreview);
+              var parentElement = preview.parentElement;
+              var nextPreviewElement = window.vars.photoElementTemplate.cloneNode(true);
+              nextPreviewElement.appendChild(photo);
+              parentElement.appendChild(nextPreviewElement);
             } else {
               preview.appendChild(photo);
               uploaded = true;
@@ -61,8 +60,8 @@
     input.addEventListener('change', onFileInputChange);
   };
 
-  subscribeToFileInputChangeEvent(avatarInputElement, avatarElement);
-  subscribeToFileInputChangeEvent(photoInputElement, photoElement, true);
+  subscribeToFileInputChangeEvent(avatarInputElement, window.vars.avatarElement);
+  subscribeToFileInputChangeEvent(photoInputElement, window.vars.photoElement, true);
 
   var onDefaultDragEvent = function (e) {
     if (e.target.getAttribute('type') !== 'file') {
