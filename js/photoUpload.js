@@ -24,10 +24,6 @@
   window.consts.DEFAULT_AVATAR_SRC = window.vars.avatarElement.src;
 
   var subscribeToFileInputChangeEvent = function (input, preview, multiple) {
-    if (multiple) {
-      var uploaded = false;
-    }
-
     var onFileInputChange = function () {
       Array.prototype.forEach.call(input.files, function (file) {
         var reader = new FileReader();
@@ -39,15 +35,19 @@
             photo.style.maxWidth = '100%';
             photo.style.display = 'block';
 
-            if (uploaded) {
-              var parentElement = preview.parentElement;
-              var nextPreviewElement = window.vars.photoElementTemplate.cloneNode(true);
-              nextPreviewElement.appendChild(photo);
-              parentElement.appendChild(nextPreviewElement);
-            } else {
-              preview.appendChild(photo);
-              uploaded = true;
+            var parentElement = window.vars.photoElementTemplateParentElement;
+            var previewElement = window.vars.photoElementTemplate.cloneNode(true);
+            previewElement.appendChild(photo);
+
+            if (!window.vars.photoUploaded) {
+              var previewClass = preview.className;
+              var defaultPreview = parentElement.querySelector('.' + previewClass);
+              defaultPreview.remove();
+              window.vars.photoUploaded = true;
             }
+
+            parentElement.appendChild(previewElement);
+
           } else {
             preview.src = reader.result;
           }

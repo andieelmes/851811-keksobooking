@@ -119,11 +119,11 @@
 
     window.vars.avatarElement.src = window.consts.DEFAULT_AVATAR_SRC;
     var photoElements = window.vars.adFormElement.querySelectorAll('.ad-form__photo');
-    var parentElement = photoElements[0].parentElement;
     photoElements.forEach(function (element) {
       element.remove();
     });
-    parentElement.appendChild(window.vars.photoElementTemplate);
+    window.vars.photoElementTemplateParentElement.appendChild(window.vars.photoElementTemplate);
+    window.vars.photoUploaded = false;
   };
 
   var resetListingFormWithAButton = function (e) {
