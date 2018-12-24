@@ -13,8 +13,8 @@
       var address = listing.location.x.toString() + ', ' + listing.location.y.toString();
       var pin = window.vars.mapPinsElement.querySelector('[data-address="' + address + '"]');
       pin.addEventListener('click', function () {
+        var previousActivePin = window.vars.mapPinsElement.querySelector('.' + window.consts.ACTIVE_PIN_CLASS);
         makeMapCardElement(listing, pin);
-        var previousActivePin = window.vars.mapPinsElement.querySelector(window.consts.ACTIVE_PIN_CLASS);
         if (previousActivePin) {
           window.utils.removeActivePinClass(previousActivePin);
         }
@@ -24,7 +24,7 @@
   };
 
   var makeMapCardElement = function (listing, pin) {
-    var cardElement = window.vars.mapElement.querySelector(window.consts.CARD_ELEMENT_CLASS);
+    var cardElement = window.vars.mapElement.querySelector(window.consts.CARD_ELEMENT_CLASS_SELECTOR);
     if (cardElement) {
       cardElement.remove();
     }

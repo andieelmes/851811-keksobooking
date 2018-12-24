@@ -76,7 +76,7 @@
   };
 
   var removeCard = function () {
-    var cardElement = document.querySelector(window.consts.CARD_ELEMENT_CLASS);
+    var cardElement = document.querySelector(window.consts.CARD_ELEMENT_CLASS_SELECTOR);
     if (cardElement) {
       cardElement.remove();
     }
