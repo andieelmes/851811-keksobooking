@@ -6,13 +6,16 @@
 
   var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
-  var CARD_ELEMENT_CLASS = '.map__card';
+  var CARD_ELEMENT_CLASS_SELECTOR = '.map__card';
+  var ACTIVE_PIN_CLASS = 'map__pin--active';
   var DEBOUNCE_INTERVAL = 500; // ms
 
   var MAP_PIN_ELEMENT_DIMENSIONS = {
     width: 50,
     height: 70,
   };
+
+  var DEFAULT_AVATAR_SRC = '';
 
   var TypesTranslation = {
     palace: 'Дворец',
@@ -55,9 +58,11 @@
     NUMBER_OF_LISTINGS: NUMBER_OF_LISTINGS,
     ESC_KEYCODE: ESC_KEYCODE,
     ENTER_KEYCODE: ENTER_KEYCODE,
-    CARD_ELEMENT_CLASS: CARD_ELEMENT_CLASS,
+    CARD_ELEMENT_CLASS_SELECTOR: CARD_ELEMENT_CLASS_SELECTOR,
+    ACTIVE_PIN_CLASS: ACTIVE_PIN_CLASS,
     DEBOUNCE_INTERVAL: DEBOUNCE_INTERVAL,
     MAP_PIN_ELEMENT_DIMENSIONS: MAP_PIN_ELEMENT_DIMENSIONS,
+    DEFAULT_AVATAR_SRC: DEFAULT_AVATAR_SRC,
     TypesTranslation: TypesTranslation,
     RoomsToCapacity: RoomsToCapacity,
     TypeToPrice: TypeToPrice,

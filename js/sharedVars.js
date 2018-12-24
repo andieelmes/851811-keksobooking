@@ -45,6 +45,13 @@
 
   var mapPinElements = document.querySelectorAll('.map__pin:not(.map__pin--main)');
 
+  var avatarElement = document.querySelector('.ad-form-header__preview img');
+  var photoElement = document.querySelector('.ad-form__photo');
+  var photoElementTemplate = photoElement.cloneNode(true);
+  var photoElementTemplateParentElement = photoElement.parentElement;
+
+  var photoUploaded = false;
+
   window.vars = {
     mapElement: mapElement,
     mapPinsElement: mapPinsElement,
@@ -63,5 +70,10 @@
     timeOutSelectElement: timeOutSelectElement,
     mapFormElement: mapFormElement,
     mapPinElements: mapPinElements,
+    avatarElement: avatarElement,
+    photoElement: photoElement,
+    photoElementTemplate: photoElementTemplate,
+    photoElementTemplateParentElement: photoElementTemplateParentElement,
+    photoUploaded: photoUploaded,
   };
 })();

@@ -45,9 +45,7 @@
       mapPinElements[i].remove();
     }
 
-    window.utils.removeCard();
-    window.utils.resetMapPin();
-    window.utils.setAddress(window.vars.mapPinMainElement.offsetHeight / 2);
+    window.utils.resetListingForm();
     window.state.init();
   };
 

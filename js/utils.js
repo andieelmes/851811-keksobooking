@@ -76,7 +76,7 @@
   };
 
   var removeCard = function () {
-    var cardElement = document.querySelector(window.consts.CARD_ELEMENT_CLASS);
+    var cardElement = document.querySelector(window.consts.CARD_ELEMENT_CLASS_SELECTOR);
     if (cardElement) {
       cardElement.remove();
     }
@@ -104,6 +104,33 @@
     return result;
   };
 
+  var removeActivePinClass = function (element) {
+    element.classList.remove(window.consts.ACTIVE_PIN_CLASS);
+  };
+
+  var resetListingForm = function () {
+    window.vars.adFormElement.reset();
+
+    window.synchronizeFields();
+
+    window.utils.resetMapPin();
+    window.utils.setAddress(window.vars.mapPinMainElementDimensions.height + window.vars.mapPinMainElementDimensions.after);
+    window.utils.removeCard();
+
+    window.vars.avatarElement.src = window.consts.DEFAULT_AVATAR_SRC;
+    var photoElements = window.vars.adFormElement.querySelectorAll('.ad-form__photo');
+    photoElements.forEach(function (element) {
+      element.remove();
+    });
+    window.vars.photoElementTemplateParentElement.appendChild(window.vars.photoElementTemplate);
+    window.vars.photoUploaded = false;
+  };
+
+  var resetListingFormWithAButton = function (e) {
+    e.preventDefault();
+    window.utils.resetListingForm();
+  };
+
   window.utils = {
     getRandomInt: getRandomInt,
     getRandomElement: getRandomElement,
@@ -118,5 +145,8 @@
     removeCard: removeCard,
     debounce: debounce,
     removeArrayElement: removeArrayElement,
+    removeActivePinClass: removeActivePinClass,
+    resetListingForm: resetListingForm,
+    resetListingFormWithAButton: resetListingFormWithAButton,
   };
 })();
