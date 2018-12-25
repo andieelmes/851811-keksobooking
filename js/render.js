@@ -69,10 +69,10 @@
   };
 
   var renderPins = function () {
-    window.vars.mapPinElements = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    var mapPinElements = document.querySelectorAll('.map__pin:not(.map__pin--main)');
 
-    if (window.vars.mapPinElements) {
-      window.vars.mapPinElements.forEach(function (item) {
+    if (mapPinElements) {
+      mapPinElements.forEach(function (item) {
         item.remove();
       });
     }

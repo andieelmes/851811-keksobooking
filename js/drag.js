@@ -1,14 +1,29 @@
 'use strict';
 
 (function () {
+  var locationXLimits = {
+    MIN: 0,
+    MAX: window.vars.mapPinsElement.offsetWidth - window.vars.mapPinMainElement.offsetWidth
+  };
+
+  var locationYLimits = {
+    MIN: 130,
+    MAX: 630
+  };
+
+  var locationYMapPinLimits = {
+    MIN: locationYLimits.MIN,
+    MAX: locationYLimits.MAX
+  };
+
   var getCoords = function (coord, limits) {
     return Math.min(Math.max(coord, limits.MIN), limits.MAX);
   };
 
   var setLocationYMapPinLimit = function (height) {
-    window.vars.locationYMapPinLimits = {
-      MIN: window.vars.locationYLimits.MIN - height,
-      MAX: window.vars.locationYLimits.MAX - height
+    locationYMapPinLimits = {
+      MIN: locationYLimits.MIN - height,
+      MAX: locationYLimits.MAX - height
     };
   };
 
@@ -28,8 +43,8 @@
 
     setLocationYMapPinLimit(currentMapPinHeight);
 
-    var mapPintop = getCoords(calcMapPintop, window.vars.locationYMapPinLimits);
-    var mapPinLeft = getCoords(calcMapPinLeft, window.vars.locationXLimits);
+    var mapPintop = getCoords(calcMapPintop, locationYMapPinLimits);
+    var mapPinLeft = getCoords(calcMapPinLeft, locationXLimits);
 
     window.vars.mapPinMainElement.style.top = mapPintop + 'px';
     window.vars.mapPinMainElement.style.left = mapPinLeft + 'px';

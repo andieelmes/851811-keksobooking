@@ -71,8 +71,13 @@
     });
   };
 
+  var mapPinMainElementInitialCoords = {
+    top: window.vars.mapPinMainElement.style.top,
+    left: window.vars.mapPinMainElement.style.left,
+  };
+
   var resetMapPin = function () {
-    window.vars.mapPinMainElement.style = 'left: ' + window.vars.mapPinMainElementInitialCoords.left + '; top: ' + window.vars.mapPinMainElementInitialCoords.top;
+    window.vars.mapPinMainElement.style = 'left: ' + mapPinMainElementInitialCoords.left + '; top: ' + mapPinMainElementInitialCoords.top;
   };
 
   var removeCard = function () {
