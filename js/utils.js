@@ -121,6 +121,7 @@
     window.utils.resetMapPin();
     window.utils.setAddress(window.vars.mapPinMainElementDimensions.height + window.vars.mapPinMainElementDimensions.after);
     window.utils.removeCard();
+    window.utils.removeActivePinClass(window.vars.mapPinsElement.querySelector('.' + window.consts.ACTIVE_PIN_CLASS));
 
     window.vars.avatarElement.src = window.consts.DEFAULT_AVATAR_SRC;
     var photoElements = window.vars.adFormElement.querySelectorAll('.ad-form__photo');
